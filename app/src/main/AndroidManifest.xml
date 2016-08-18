@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jorjin.weker.mdmservice">
-
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="23" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -13,13 +15,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <user-permission android:name="android.permission.INTERNET"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name="com.jorjin.weker.mdmservice.MyAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+                <meta-data
+                    android:name="android.app.device_admin"
+                    android:resource="@xml/admin"/>
+                <intent-filter>
+                    <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+                </intent-filter>
+        </receiver>
         <service android:name=".mdmService"
             android:enabled="true"
             android:exported="false"/>
