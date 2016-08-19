@@ -3,6 +3,7 @@ package com.jorjin.weker.mdmservice;
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,16 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
     static final int ADMIN_INTENT = 15;
+    DevicePolicyManager deviceManager;
     ComponentName compName;
 
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        deviceManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         compName = new ComponentName(this, MyAdminReceiver.class);
         Intent i = new Intent(this, mdmService.class);
-        //startService(i);
+        startService(i);
         setContentView(R.layout.activity_main);
         Button activate = (Button) findViewById(R.id.activate);
         activate.setOnClickListener(this);

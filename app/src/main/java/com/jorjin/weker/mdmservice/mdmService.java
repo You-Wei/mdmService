@@ -1,15 +1,9 @@
 package com.jorjin.weker.mdmservice;
 
-import android.app.Activity;
 import android.app.Service;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.util.Log;
@@ -26,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class mdmService extends Service implements HandlerManager.LoginCallback{
 
     ScheduledExecutorService scheduledExecutorService;
-    ComponentName compName;
 
 
     private HandlerThread thread;
@@ -42,13 +35,6 @@ public class mdmService extends Service implements HandlerManager.LoginCallback{
 
     @Override
     public void onCreate() {
-        compName = new ComponentName(this, MyAdminReceiver.class);
-
-        super.onCreate();
-        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "enabled");
-
         HandlerThread thread = new HandlerThread("Thread name", Process.THREAD_PRIORITY_BACKGROUND);
         thread.start();
     }
@@ -65,7 +51,7 @@ public class mdmService extends Service implements HandlerManager.LoginCallback{
                     public void run() {
                         try {
                             StringBuilder result = new StringBuilder();
-                            URL url = new URL("http://192.168.244.128/mdm.php");
+                            URL url = new URL("http://192.168.10.156/mdm.php");
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("GET");
                             conn.setDoInput(true);
